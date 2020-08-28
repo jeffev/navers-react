@@ -2,12 +2,12 @@
 
 Projeto para o teste técnico da navers onde será feito um CRUD de navers em react.
 
-### escolher a porta
+escolher a porta
 .env
 ```
 PORT=8081
 
-#Para rodar o projeto:
+###Para rodar o projeto:
 - Clonar o repositório:
 $ git clone https://github.com/jeffev/navers-react
 
