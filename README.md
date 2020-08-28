@@ -4,7 +4,7 @@ Projeto para o teste técnico da navers onde será feito um CRUD de navers em re
 
 escolher a porta
 .env
-```
+
 PORT=8081
 
 ###Para rodar o projeto:
