@@ -7,7 +7,7 @@ escolher a porta
 
 PORT=8081
 
-###Para rodar o projeto:
+Para rodar o projeto:
 - Clonar o repositório:
 $ git clone https://github.com/jeffev/navers-react
 
