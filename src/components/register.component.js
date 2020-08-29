@@ -105,12 +105,6 @@ export default class Register extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
-
           <Form
             onSubmit={this.handleRegister}
             ref={c => {
@@ -120,7 +114,7 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">E-mail</label>
                   <Input
                     type="text"
                     className="form-control"

@@ -23,14 +23,19 @@ class AuthService {
   }
 
   register(email, password) {
-    return axios.post(API_URL + "signup", {
+    return axios.post(API_URL + "users/signup", {
       email,
       password
     });
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
+  getAuth() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return (user?true:false);
   }
 }
 
