@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup, Container, Row, Col} from 'reactstrap';
 import axios from 'axios';
-import moment from 'moment'
-
+import moment from 'moment';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import NaversService from "../services/navers.service";
 
 export default class Navers extends Component {
@@ -15,6 +16,9 @@ export default class Navers extends Component {
       axios.defaults.baseURL = 'https://navedex-api.herokuapp.com/v1/';
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
       axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    } else {
+      this.props.history.push("/login");
+      window.location.reload();
     }
 
     this.state = {
@@ -159,20 +163,23 @@ export default class Navers extends Component {
   render() {
     let navers = this.state.navers.map((naver, index)=>{
       return (
-        <div key={naver.id}>
-          <img alt='' src={naver.url} width="300" height="350"/>
-          <p> {naver.name}</p>
-          <p>{naver.job_role}</p>
-          <Button color='success' onClick={this.editNaver.bind(this,naver.id, naver.name, naver.job_role, naver.birthdate, naver.admission_date, naver.project, naver.url)}>Editar</Button>
-          <Button color='danger' onClick={this.deleteNaver.bind(this, naver.id)}>Deletar</Button>
-        </div>
+        <Col key={naver.id}>
+          <img alt='' className='foto-naver' src={naver.url} width="250" height="270"/>
+          <div className="font-nome"> {naver.name}</div>
+          <div className="font-funcao">{naver.job_role}</div>
+          
+          <Button className="btn btn-dark mr-2" onClick={this.editNaver.bind(this,naver.id, naver.name, naver.job_role, naver.birthdate, naver.admission_date, naver.project, naver.url)}><EditIcon /></Button>
+          <Button className="btn btn-dark" onClick={this.deleteNaver.bind(this, naver.id)}><DeleteIcon /></Button>
+        </Col>
       )
     });
       
     return (
-      <div className="App container">
-        <h2>Navers</h2> 
-        <Button color="primary" onClick={this.toggleNewNaver.bind(this)}>Novo naver</Button>
+      <Container >
+        <Row xs="2">
+          <Col><div class="font-titulo">Navers</div></Col> 
+          <Col><Button className="btn btn-dark" onClick={this.toggleNewNaver.bind(this)}>Novo naver</Button></Col>
+        </Row>
         <Modal isOpen={this.state.newNaver} toggle={this.toggleNewNaver.bind(this)}>
           <ModalHeader toggle={this.toggleNewNaver.bind(this)}>Novo Naver</ModalHeader>
           <ModalBody>
@@ -226,8 +233,8 @@ export default class Navers extends Component {
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.addNaver.bind(this)}>Criar</Button>{' '}
-            <Button color="secondary" onClick={this.toggleNewNaver.bind(this)}>Cancel</Button>
+            <Button className="btn btn-dark btn-block" onClick={this.addNaver.bind(this)}>Criar</Button>{' '}
+            <Button className="btn btn-dark btn-block" onClick={this.toggleNewNaver.bind(this)}>Cancel</Button>
           </ModalFooter>
         </Modal>
 
@@ -284,13 +291,14 @@ export default class Navers extends Component {
           </FormGroup>
           </ModalBody>
           <ModalFooter>
-          <Button color="primary" onClick={this.updateNaver.bind(this)}>Alterar</Button>{' '}
-          <Button color="secondary" onClick={this.toggleEditNaver.bind(this)}>Cancel</Button>
+          <Button className="btn btn-dark btn-block" onClick={this.updateNaver.bind(this)}>Alterar</Button>{' '}
+          <Button className="btn btn-dark btn-block" onClick={this.toggleEditNaver.bind(this)}>Cancel</Button>
           </ModalFooter>
         </Modal>
-        
-        {navers}
-      </div>
+        <Row xs="4">
+          {navers}
+        </Row>
+      </Container>
     );
     
   }

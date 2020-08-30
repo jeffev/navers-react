@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import logo from "../navers.png";
 
 import AuthService from "../services/auth.service";
 
@@ -78,11 +79,13 @@ export default class Login extends Component {
       });
     }
   }
-
+  
   render() {
     return (
       <div className="col-md-12">
         <div className="card card-container">
+          <img src={logo} alt="navers-logo" />
+
           <Form
             onSubmit={this.handleLogin}
             ref={c => {
@@ -115,7 +118,7 @@ export default class Login extends Component {
 
             <div className="form-group">
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-dark btn-block"
                 disabled={this.state.loading}
               >
                 {this.state.loading && (

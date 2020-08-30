@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import logo from "./navers.png";
 
 import AuthService from "./services/auth.service";
 
@@ -39,36 +40,33 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <Link to={"/"} className="navbar-brand">
-              bezKoder
-            </Link>
+          <nav className="navbar navbar-expand navbar-dark bg-white">
+          {currentUser ? (
             <div className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link to={"/navers"} className="nav-link">
-                  Navers
-                </Link>
+                <img src={logo} alt="navers-logo" className="navbar-brand" width="50%"/>
               </li>
             </div>
+          ):(<div></div>)}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={this.logOut}>
-                    LogOut
+                  <a href="/login" className="font-link  mr-5" onClick={this.logOut}>
+                    Sair
                   </a>
                 </li>
               </div>
             ) : (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link to={"/login"} className="nav-link">
+                  <Link to={"/login"} className="font-link mr-2">
                     Login
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <Link to={"/register"} className="nav-link">
+                  <Link to={"/register"} className="font-link mr-5">
                     Sign Up
                   </Link>
                 </li>

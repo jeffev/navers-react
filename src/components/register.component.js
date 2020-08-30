@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import logo from "../navers.png";
 
 import AuthService from "../services/auth.service";
 
@@ -105,6 +106,7 @@ export default class Register extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
+        <img src={logo} alt="navers-logo" />
           <Form
             onSubmit={this.handleRegister}
             ref={c => {
@@ -138,7 +140,7 @@ export default class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Sign Up</button>
+                  <button className="btn btn-dark btn-block">Sign Up</button>
                 </div>
               </div>
             )}
