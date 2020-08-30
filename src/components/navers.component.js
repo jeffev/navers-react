@@ -40,7 +40,9 @@ export default class Navers extends Component {
         project: '',
         url: ''
       },
+      deleteId:'',
       newNaver: false,
+      deleteNaverModal: false,
       editNaver: false
     };
   }
@@ -58,6 +60,12 @@ export default class Navers extends Component {
   toggleEditNaver () {
     this.setState({
       editNaver: !this.state.editNaver
+    });
+  }
+
+  toggleDeleteNaver () {
+    this.setState({
+      deleteNaverModal: !this.state.deleteNaverModal
     });
   }
 
@@ -118,19 +126,17 @@ export default class Navers extends Component {
     });
   }
 
-  deleteNaver (id) {
-    console.log(id);
-    axios.delete(`/navers/${id}`).then((response) => {
+  deletarNaver (id) {
+    this.setState({deleteId: id, 
+      deleteNaverModal: !this.state.deleteNaverModal
+    });
+  }
+
+  deleteNaver () {
+    console.log(this.state.deleteId);
+    axios.delete(`/navers/${this.state.deleteId}`).then((response) => {
       this._refreshNavers();
-      this.setState({editNaver:false, editNaverData: {
-        id: '',
-        name: '',
-        job_role: '',
-        birthdate: '',
-        admission_date: '',
-        project: '',
-        url: ''
-      }});
+      this.setState({deleteNaverModal:false});
       return(response.data);
     });
   }
@@ -169,7 +175,7 @@ export default class Navers extends Component {
           <div className="font-funcao">{naver.job_role}</div>
           
           <Button className="btn btn-dark mr-2" onClick={this.editNaver.bind(this,naver.id, naver.name, naver.job_role, naver.birthdate, naver.admission_date, naver.project, naver.url)}><EditIcon /></Button>
-          <Button className="btn btn-dark" onClick={this.deleteNaver.bind(this, naver.id)}><DeleteIcon /></Button>
+          <Button className="btn btn-dark" onClick={this.deletarNaver.bind(this, naver.id)}><DeleteIcon /></Button>
         </Col>
       )
     });
@@ -177,122 +183,137 @@ export default class Navers extends Component {
     return (
       <Container >
         <Row xs="2">
-          <Col><div class="font-titulo">Navers</div></Col> 
-          <Col><Button className="btn btn-dark" onClick={this.toggleNewNaver.bind(this)}>Novo naver</Button></Col>
+          <Col><div className="font-titulo">Navers</div></Col> 
+          <Col><Button className="btn btn-dark botao-novo" onClick={this.toggleNewNaver.bind(this)}>Novo naver</Button></Col>
         </Row>
         <Modal isOpen={this.state.newNaver} toggle={this.toggleNewNaver.bind(this)}>
           <ModalHeader toggle={this.toggleNewNaver.bind(this)}>Novo Naver</ModalHeader>
           <ModalBody>
+            <Row xs="2">
             <FormGroup>
-              <Label for="name">Nome</Label>
-              <Input id="name" value={this.state.newNaverData.name} onChange={(e) => {
+              <Label className="font-cadastro" for="name">Nome</Label>
+              <Input id="name" placeholder="Nome" className="form-cadastro" value={this.state.newNaverData.name} onChange={(e) => {
                 let { newNaverData } = this.state;
                 newNaverData.name = e.target.value;
                 this.setState({ newNaverData });
               }} />
             </FormGroup>
             <FormGroup>
-              <Label for="job_role">Cargo</Label>
-              <Input id="job_role" value={this.state.newNaverData.job_role} onChange={(e) =>{
+              <Label className="font-cadastro" for="job_role">Cargo</Label>
+              <Input id="job_role" placeholder="Cargo" className="form-cadastro" value={this.state.newNaverData.job_role} onChange={(e) =>{
                 let {newNaverData} = this.state;
                 newNaverData.job_role = e.target.value;
                 this.setState({newNaverData});
               }}/>
             </FormGroup>
             <FormGroup>
-              <Label for="birthdate">Data de nascimento</Label>
-              <Input type="date" format="dd/MM/yyyy" id="birthdate" value={this.state.newNaverData.birthdate} onChange={(e) =>{
+              <Label className="font-cadastro" for="birthdate">Data de nascimento</Label>
+              <Input type="date" placeholder="Data de nascimento" className="form-cadastro" format="dd/MM/yyyy" id="birthdate" value={this.state.newNaverData.birthdate} onChange={(e) =>{
                 let {newNaverData} = this.state;
                 newNaverData.birthdate = e.target.value;
                 this.setState({newNaverData});
               }}/>
             </FormGroup>
             <FormGroup>
-              <Label for="admission_date">Data de admissão</Label>
-              <Input type="date" format="dd/MM/yyyy" id="admission_date" value={this.state.newNaverData.admission_date} onChange={(e) =>{
+              <Label className="font-cadastro" for="admission_date">Data de admissão</Label>
+              <Input type="date" placeholder="Data de admissão" className="form-cadastro" format="dd/MM/yyyy" id="admission_date" value={this.state.newNaverData.admission_date} onChange={(e) =>{
                 let {newNaverData} = this.state;
                 newNaverData.admission_date = e.target.value;
                 this.setState({newNaverData});
               }}/>
             </FormGroup>
             <FormGroup>
-              <Label for="project">Projeto que participou</Label>
-              <Input id="project" value={this.state.newNaverData.project} onChange={(e) =>{
+              <Label className="font-cadastro" for="project">Projeto que participou</Label>
+              <Input id="project" placeholder="Projeto que participou" className="form-cadastro" value={this.state.newNaverData.project} onChange={(e) =>{
                 let {newNaverData} = this.state;
                 newNaverData.project = e.target.value;
                 this.setState({newNaverData});
               }}/>
             </FormGroup>
             <FormGroup>
-              <Label for="url">Url da foto do naver</Label>
-              <Input id="url" value={this.state.newNaverData.url} onChange={(e) =>{
+              <Label className="font-cadastro" for="url">Url da foto do naver</Label>
+              <Input id="url" placeholder="Url da foto do naver" className="form-cadastro" value={this.state.newNaverData.url} onChange={(e) =>{
                 let {newNaverData} = this.state;
                 newNaverData.url = e.target.value;
                 this.setState({newNaverData});
               }}/>
             </FormGroup>
+            </Row>
           </ModalBody>
           <ModalFooter>
-            <Button className="btn btn-dark btn-block" onClick={this.addNaver.bind(this)}>Criar</Button>{' '}
-            <Button className="btn btn-dark btn-block" onClick={this.toggleNewNaver.bind(this)}>Cancel</Button>
+            <Button className="btn btn-dark " onClick={this.addNaver.bind(this)}>Criar</Button>{' '}
+            <Button className="btn btn-dark " onClick={this.toggleNewNaver.bind(this)}>Cancel</Button>
           </ModalFooter>
         </Modal>
 
         <Modal isOpen={this.state.editNaver} toggle={this.toggleEditNaver.bind(this)}>
-          <ModalHeader toggle={this.toggleEditNaver.bind(this)}>Novo Naver</ModalHeader>
+          <ModalHeader toggle={this.toggleEditNaver.bind(this)}>Editar Naver</ModalHeader>
           <ModalBody>
-          <FormGroup>
-            <Label for="name">Nome</Label>
-            <Input id="name" value={this.state.editNaverData.name} onChange={(e) => {
-            let { editNaverData } = this.state;
-            editNaverData.name = e.target.value;
-            this.setState({ editNaverData });
-            }} />
-          </FormGroup>
-          <FormGroup>
-            <Label for="job_role">Cargo</Label>
-            <Input id="job_role" value={this.state.editNaverData.job_role} onChange={(e) =>{
-            let {editNaverData} = this.state;
-            editNaverData.job_role = e.target.value;
-            this.setState({editNaverData});
-            }}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for="birthdate">Data de nascimento</Label>
-            <Input type="date" format="dd/MM/yyyy" id="birthdate" value={this.state.editNaverData.birthdate} onChange={(e) =>{
-            let {editNaverData} = this.state;
-            editNaverData.birthdate = e.target.value;
-            this.setState({editNaverData});
-            }}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for="admission_date">Data de admissão</Label>
-            <Input type="date" format="dd/MM/yyyy" id="admission_date" value={this.state.editNaverData.admission_date} onChange={(e) =>{
-            let {editNaverData} = this.state;
-            editNaverData.admission_date = e.target.value;
-            this.setState({editNaverData});
-            }}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for="project">Projeto que participou</Label>
-            <Input id="project" value={this.state.editNaverData.project} onChange={(e) =>{
-            let {editNaverData} = this.state;
-            editNaverData.project = e.target.value;
-            this.setState({editNaverData});
-            }}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for="url">Url da foto do naver</Label>
-            <Input id="url" value={this.state.editNaverData.url} onChange={(e) =>{
-            let {editNaverData} = this.state;
-            editNaverData.url = e.target.value;
-            this.setState({editNaverData});
-            }}/>
-          </FormGroup>
+            <Row>
+              <FormGroup>
+                <Label className="font-cadastro" for="name">Nome</Label>
+                <Input id="name" className="form-cadastro" value={this.state.editNaverData.name} onChange={(e) => {
+                let { editNaverData } = this.state;
+                editNaverData.name = e.target.value;
+                this.setState({ editNaverData });
+                }} />
+              </FormGroup>
+              <FormGroup>
+                <Label className="font-cadastro" for="job_role">Cargo</Label>
+                <Input id="job_role" className="form-cadastro" value={this.state.editNaverData.job_role} onChange={(e) =>{
+                let {editNaverData} = this.state;
+                editNaverData.job_role = e.target.value;
+                this.setState({editNaverData});
+                }}/>
+              </FormGroup>
+              <FormGroup>
+                <Label className="font-cadastro" for="birthdate">Data de nascimento</Label>
+                <Input type="date" className="form-cadastro" format="dd/MM/yyyy" id="birthdate" value={this.state.editNaverData.birthdate} onChange={(e) =>{
+                let {editNaverData} = this.state;
+                editNaverData.birthdate = e.target.value;
+                this.setState({editNaverData});
+                }}/>
+              </FormGroup>
+              <FormGroup>
+                <Label className="font-cadastro" for="admission_date">Data de admissão</Label>
+                <Input type="date" className="form-cadastro" format="dd/MM/yyyy" id="admission_date" value={this.state.editNaverData.admission_date} onChange={(e) =>{
+                let {editNaverData} = this.state;
+                editNaverData.admission_date = e.target.value;
+                this.setState({editNaverData});
+                }}/>
+              </FormGroup>
+              <FormGroup>
+                <Label className="font-cadastro" for="project">Projeto que participou</Label>
+                <Input id="project" className="form-cadastro" value={this.state.editNaverData.project} onChange={(e) =>{
+                let {editNaverData} = this.state;
+                editNaverData.project = e.target.value;
+                this.setState({editNaverData});
+                }}/>
+              </FormGroup>
+              <FormGroup>
+                <Label className="font-cadastro" for="url">Url da foto do naver</Label>
+                <Input id="url" className="form-cadastro" value={this.state.editNaverData.url} onChange={(e) =>{
+                let {editNaverData} = this.state;
+                editNaverData.url = e.target.value;
+                this.setState({editNaverData});
+                }}/>
+              </FormGroup>
+            </Row>
           </ModalBody>
           <ModalFooter>
-          <Button className="btn btn-dark btn-block" onClick={this.updateNaver.bind(this)}>Alterar</Button>{' '}
-          <Button className="btn btn-dark btn-block" onClick={this.toggleEditNaver.bind(this)}>Cancel</Button>
+            <Button className="btn btn-dark" onClick={this.updateNaver.bind(this)}>Alterar</Button>{' '}
+            <Button className="btn btn-dark" onClick={this.toggleEditNaver.bind(this)}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={this.state.deleteNaverModal} toggle={this.toggleDeleteNaver.bind(this)}>
+          <ModalHeader toggle={this.toggleDeleteNaver.bind(this)}>Excluir Naver</ModalHeader>
+          <ModalBody>
+            <Label className="font-cadastro" for="name">Tem certeza que deseja excluir este Naver?</Label>
+          </ModalBody>
+          <ModalFooter>
+            <Button className="btn btn-white" onClick={this.toggleDeleteNaver.bind(this)}>Cancelar</Button>{' '}
+            <Button className="btn btn-dark" onClick={this.deleteNaver.bind(this)}>Excluir</Button>
           </ModalFooter>
         </Modal>
         <Row xs="4">

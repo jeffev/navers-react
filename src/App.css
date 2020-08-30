@@ -61,6 +61,24 @@ label {
   color: #000000;
 }
 
+.font-cadastro {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  margin-left: 15px;
+}
+
 .foto-naver {
   margin-top: 10px;
+}
+
+.form-cadastro {
+  width: 220px;
+  margin-left: 15px;
+}
+
+.botao-novo {
+  float: right;
 }

@@ -47,7 +47,7 @@ class App extends Component {
                 <img src={logo} alt="navers-logo" className="navbar-brand" width="50%"/>
               </li>
             </div>
-          ):(<div></div>)}
+          ):(null)}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
